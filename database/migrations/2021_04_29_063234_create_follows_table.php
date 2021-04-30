@@ -18,6 +18,12 @@ class CreateFollowsTable extends Migration
             $table->bigInteger('following_id')->unsigned()->nullable();
             $table->bigInteger('followed_id')->unsigned()->nullable();
             $table->timestamps();
+
+            /* 組み合わせの重複を防ぐ */
+            $table->unique([
+                'following_id',
+                'followed_id'
+            ]);
         });
     }
 
