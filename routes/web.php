@@ -31,7 +31,8 @@ Route::post('profile/edit','UserController@edit') ->name('profile.edit');
 Route::get('profile/destroy/{id}','UserController@destroy') ->name('profile.destroy');
 
 //プロフィール（相手用）
-Route::get('profile/other/{id}','UserController@other')->name('profile.other');
+// Route::get('profile/other/{id}','UserController@other')->name('profile.other');
+Route::get('profile/other','UserController@other')->name('profile.other');
 
 //ユーザー検索(ユーザーリスト)
 Route::get('user/index','UserController@index')->name('user.index');
