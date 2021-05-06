@@ -4,7 +4,7 @@
     <form method ="POST" action="{{ route('profile.edit') }}" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="media">
-             <img src="{{ asset('images/portrait.png')}}">
+             <img src="/storage/img/{{ $user -> image }}" class="rounded-circle" width="50"  height="50">
              <div class="media-body">
                   <input type="text" class="form-control" value="{{ $user -> name }}"  name="username">
                   <textarea type="text" class="form-control" name="comment">{{ $user -> comment }}</textarea>
@@ -27,6 +27,6 @@
               <input type="file" class="form-control-file" id="exampleFormControlFile1" value="{{ $user -> image }}" name="image">
         </div>
         <button type="submit" class="btn btn-primary">更新</button>
-      </form>
+ </form>
 </div>
 @endsection

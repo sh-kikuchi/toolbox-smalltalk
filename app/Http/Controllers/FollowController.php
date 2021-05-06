@@ -2,84 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Follow;
+use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 
 class FollowController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+
+    public function following() {
+        #フォローしている人の投稿リスト
+        $followings = User::from('users as u')
+           ->Join('follows as f', 'u.id', '=', 'f.followed_id')
+           ->Join('posts as p','u.id', '=', 'p.user_id')
+           ->where('f.following_id', Auth::user()->id)
+           ->get();
+        return view('follow.following',compact('followings'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function followed()  {
+        #フォローされている人の投稿リスト
+        $followers = User::from('users as u')
+           ->Join('follows as f', 'u.id', '=', 'f.following_id')
+           ->Join('posts as p','u.id', '=', 'p.user_id')
+           ->where('f.followed_id', Auth::user()->id)
+           ->get();
+        return view('follow.followed',compact('followers'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Follow  $follow
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Follow $follow)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Follow  $follow
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Follow $follow)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Follow  $follow
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Follow $follow)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Follow  $follow
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Follow $follow)
-    {
-        //
-    }
 }
