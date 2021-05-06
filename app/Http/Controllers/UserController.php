@@ -59,9 +59,9 @@ class UserController extends Controller
         return redirect()->route('profile.show');
     }
 
-    public function other(){
-        $user  = User::where('id',Auth::user()->id) ->first();
-        $posts = Post::where('user_id',Auth::user()->id)->get();
+    public function other($id){
+        $user  = User::where('id',$id) ->first();
+        $posts = Post::where('user_id',$id)->get();
         return view('profile.other',['user'=>$user],['posts'=>$posts]);
     }
 }
