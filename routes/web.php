@@ -40,4 +40,5 @@ Route::post('user/search','UserController@search')->name('user.search');
 //フォロー機能
 Route::get('follow/following','FollowController@following')->name('follow.following');
 Route::get('follow/followed','FollowController@followed')->name('follow.followed');
-Route::get('follow/change/{id}','FollowController@change')->name('follow.change');
+Route::post('users/{id}/follow', 'UserController@follow')->name('follow');
+Route::delete('users/{id}/unfollow', 'UserController@unfollow')->name('unfollow');
