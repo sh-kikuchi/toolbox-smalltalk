@@ -64,4 +64,26 @@ class UserController extends Controller
         $posts = Post::where('user_id',$id)->get();
         return view('profile.other',['user'=>$user],['posts'=>$posts]);
     }
+
+    #フォロー
+    public function follow($id){
+        $follower = auth() -> user();                  //ログインユーザー情報を取得
+        $is_following = $follower -> isFollowing($id); //フォローしているか。modelの「isFollowing」を参照
+        if(!$is_following){
+            //フォローしていなければフォローする。
+            $follower -> follow($id);                  //modelの「follow」を参照
+            return back();
+        }
+    }
+
+    #フォローをはずす
+    public function unfollow($id){
+        $follower = auth() -> user();                  //ログインユーザー情報を取得
+        $is_following = $follower -> isFollowing($id); //フォローしているか。modelの「isFollowing」を参照
+        if($is_following){
+            //フォローしていればフォローを解除する。
+            $follower -> unfollow($id);                //modelの「unfollow」を参照
+            return back();
+        }
+    }
 }
