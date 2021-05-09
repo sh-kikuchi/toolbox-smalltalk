@@ -1,6 +1,4 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
+main{
     padding: 0;
 }
 .content{
@@ -28,4 +26,22 @@
     top: 50%;
     transform: translate(-50%,-50%);
     width: 60%;
+}
+
+/*---------------------------------
+スクロール
+----------------------------------*/
+.d-flex::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+/* スクロールの背景の設定 */
+.d-flex::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+/* スクロールのつまみ部分の設定 */
+.d-flex::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #e8e8e8;
 }

@@ -3,9 +3,14 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="container">
+    <div class="row justify-content-center">
+       <div class="col-md-4 px-2">
+          <img src="{{ asset('images/Conversation-bro.png')}}" width="300" height="300" class=" mx-auto d-block">
+       </div>
+        <div class="col-md-5">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header text-center">新規登録フォーム</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -15,7 +20,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" maxlength="25" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -43,7 +48,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" maxlength="12">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -57,7 +62,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" maxlength="12">
                             </div>
                         </div>
 
