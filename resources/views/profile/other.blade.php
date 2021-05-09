@@ -1,25 +1,18 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="media">
-        <img src="{{ asset('images/portrait.png')}}">
-        <div class="media-body">
-          <h5 class="mt-0">{{ $user -> name }}</h5>
-          <h5>{{ $user -> comment }}</h5>
-        </div>
-    </div>
-    <table class="table-striped">
-      <tr>
-          <th>投稿内容</th>
-          <th>日時</th>
-      </tr>
-			 @foreach($posts as $post)
-      <tr>
-          <td>  {{ $post -> post }}</td>
-          <td>  {{ $post -> updated_at }}</td>
-      </tr>
-			 @endforeach
-　　</table>
 
+<div class="media">
+    <img src="{{ asset('storage/img/' . $user -> image)}}" class="rounded-circle">
+    <div class="media-body px-1">
+        <h5 class="mt-0">{{ $user -> name }}</h5>
+        <h5>{{ $user -> comment }}</h5>
+    </div>
 </div>
+@foreach($posts as $post)
+<div class="media shadow-sm p-3 mb-1 bg-white rounded">
+    <div class="media-body px-1">
+        {{ $post -> post }}
+    </div>
+</div>
+@endforeach
 @endsection

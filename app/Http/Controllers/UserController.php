@@ -6,12 +6,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use App\Post;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('id','<>', Auth::User()->id)->orWhereNull('id')->get();
+        $users = User::where('id','<>', Auth::User()->id)->orWhereNull('id')
+        ->paginate(10);
         return view('user.index',['users'=>$users]);
     }
 
@@ -24,7 +26,7 @@ class UserController extends Controller
             $users = User::where('id','<>', $login_user)
              ->where('name','like','%'.$keyword.'%')
              ->orWhereNull('id')
-             ->get();
+             ->paginate(10);
         }
         return view('user.index',['users' => $users],['keyword' => $keyword]);
     }
@@ -35,8 +37,21 @@ class UserController extends Controller
     }
 
     public function edit(Request $request){
+        $validator = Validator::make($request->all(),
+        ['name' => 'required|string|max:25',
+         'email'=>'string|email|max:255',
+         'new_pass'=>'min:4|max:12|nullable',
+         'comment'=>'max:200',
+        ]);
+
+          //バリデーションの結果がエラーの場合
+        if ($validator->fails())
+        {
+          return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
         $user = User::find(Auth::user()->id);
-        $user -> name = $request -> username;
+        $user -> name = $request -> name;
         $user -> comment = $request -> comment;
 
        #メールアドレスの入力がある場合

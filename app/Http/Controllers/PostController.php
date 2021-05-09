@@ -23,7 +23,8 @@ class PostController extends Controller
 
     public function show()
     {
-        $posts = Post::all();
+        $posts = Post::orderBy('updated_at', 'desc')
+         ->paginate(10);
         return view('post.show',['posts'=>$posts]);
     }
 
