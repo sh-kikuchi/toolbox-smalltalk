@@ -7,7 +7,7 @@
 				</li>
 				<li class="list-group-item">
 				    <p>フォロワー数</p>
-				    <p class="text-right">{{ $cnt_followed }}</p>
+				    <p class="text-right">{{ $cnt_follower }}</p>
 				</li>
 				<li class="list-group-item">
 				    <p>フォロー数</p>

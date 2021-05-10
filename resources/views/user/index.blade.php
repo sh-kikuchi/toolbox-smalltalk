@@ -21,7 +21,7 @@
     @foreach($users as $user)
     <tr>
         <td scope="row" style="width: 20%" ><img src="{{ asset('storage/img/'. $user->image)}}" class="rounded-circle" width="50"  height="50"> {{ $user -> name }}</td>
-        <td scope="row" style="width: 60%">{{ $user -> comment }}</td>
+        <td scope="row" style="width: 60%">{{ $user -> bio }}</td>
         <td scope="row">
             <div class="d-flex justify-content-end flex-grow-1">
                 @if (auth()->user()->isFollowing($user->id))

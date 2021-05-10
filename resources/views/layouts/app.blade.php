@@ -70,7 +70,7 @@
                                              <a class="dropdown-item" href="{{ route('follow.following') }}">フォローリスト</a>
                                         </li>
                                         <li class="list-group-item">
-                                             <a class="dropdown-item" href="{{ route('follow.followed') }}">フォロワーリスト</a>
+                                             <a class="dropdown-item" href="{{ route('follow.follower') }}">フォロワーリスト</a>
                                         </li>
                                         <li class="list-group-item">
                                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -114,7 +114,7 @@
     <div class="post-modal js-modal">
         <div class="modal_post_bg js-modal-close"></div>
         <div class="modal_post_content">
-                <p>投稿内容を編集します</p>
+                <p class="text-center">投稿内容を編集します</p>
                 <form method="POST" action="{{ route('post.edit') }}">
                     {{ csrf_field() }}
                     <div class="form-group">
@@ -124,8 +124,8 @@
                         <label for="post-text" class="col-form-label">投稿内容:</label>
                         <textarea class="form-control input-post-text" name="post_text" maxlength="200" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">完了</button>
-                    <a class="js-modal-close" href="">✕</a>
+                    <button type="submit" class="btn btn-primary mx-auto d-block">更新</button>
+                    <a class="js-modal-close float-right" href="">✕</a>
                 </form>
         </div><!--modal__inner-->
     </div><!--modal-->
