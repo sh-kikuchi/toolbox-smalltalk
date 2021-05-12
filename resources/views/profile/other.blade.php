@@ -2,10 +2,10 @@
 @section('content')
 
 <div class="media">
-    <img src="{{ asset('storage/img/' . $user -> image)}}" class="rounded-circle">
+    <img src="{{ asset('storage/img/' . $user -> image)}}" class="rounded-circle" width="50" height="50">
     <div class="media-body px-1">
         <h5 class="mt-0">{{ $user -> name }}</h5>
-        <h5>{{ $user -> comment }}</h5>
+        <h5>{{ $user -> bio }}</h5>
     </div>
 </div>
 @foreach($posts as $post)

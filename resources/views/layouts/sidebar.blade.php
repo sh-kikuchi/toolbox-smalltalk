@@ -1,13 +1,13 @@
 
-<div id="side-bar py-4">
+<div id="side-bar" class="py-4">
 		<ul class="list-group list-group-flush">
 				<li class="list-group-item">
 				    <p>{{ Auth::user()->name }}　さん</p>
-						<img src="/storage/img/{{ Auth::user()->image }}" class="rounded-circle w-50 h-50 mx-auto d-block">
+						<img src="{{ asset('storage/img/' . Auth::user()->image ) }}" class="rounded-circle mx-auto d-block" width="50"  height="50">
 				</li>
 				<li class="list-group-item">
 				    <p>フォロワー数</p>
-				    <p class="text-right">{{ $cnt_followed }}</p>
+				    <p class="text-right">{{ $cnt_follower }}</p>
 				</li>
 				<li class="list-group-item">
 				    <p>フォロー数</p>

@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             $cnt_following = Follow::where('following_id',$user_id)
              ->count();
 
-            $cnt_followed = Follow::where('followed_id',$user_id)
+            $cnt_follower = Follow::where('follower_id',$user_id)
              ->count();
 
             $cnt_post =  Post::where('user_id',$user_id)
@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
 
         //...with this variable
           $view->with('cnt_following',$cnt_following );
-          $view->with('cnt_followed',$cnt_followed);
+          $view->with('cnt_follower',$cnt_follower);
           $view->with('cnt_post',$cnt_post);
     });
 

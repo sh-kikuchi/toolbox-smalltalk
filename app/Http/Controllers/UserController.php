@@ -41,7 +41,7 @@ class UserController extends Controller
         ['name' => 'required|string|max:25',
          'email'=>'string|email|max:255',
          'new_pass'=>'min:4|max:12|nullable',
-         'comment'=>'max:200',
+         'bio'=>'max:200',
         ]);
 
           //バリデーションの結果がエラーの場合
@@ -52,7 +52,7 @@ class UserController extends Controller
 
         $user = User::find(Auth::user()->id);
         $user -> name = $request -> name;
-        $user -> comment = $request -> comment;
+        $user -> bio = $request -> bio;
 
        #メールアドレスの入力がある場合
         if($user->email !== $request->email){

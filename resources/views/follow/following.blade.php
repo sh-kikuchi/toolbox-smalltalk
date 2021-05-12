@@ -5,9 +5,9 @@
 
 <div class="d-flex flex-nowrap flex-row bd-white mb-3 overflow-auto">
 @foreach($following_images -> unique() as $following_image)
-    <div class="card border col-2 h-100 p-2">
-        <a href="{{ route('profile.other', $following_image -> followed_id ) }}">
-        <img src="{{ asset('storage/img/' . $following_image -> image)}}" class="rounded-circle">
+    <div class="card border col-3 h-100">
+        <a href="{{ route('profile.other', $following_image -> follower_id ) }}">
+        <img src="{{ asset('storage/img/' . $following_image -> image)}}" class="rounded-circle" width="50"  height="50">
         {{ $following_image -> name }}</a>
     </div>
 @endforeach
@@ -18,7 +18,7 @@
     <a href="{{ route('profile.other', $following -> user_id ) }}">
         <img src="{{ asset('storage/img/' . $following -> image)}}" class="rounded-circle" width="50"  height="50">
     </a>
-    <div class="media-body">
+    <div class="media-body px-2">
         <h5 class="mt-0">{{ $following -> name }}</h5>
         {{ $following -> post }}
     </div>
