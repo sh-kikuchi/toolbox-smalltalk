@@ -111,9 +111,9 @@
         @endguest
     </div>
     <!-- Modal -->
-    <div class="post-modal js-modal">
-        <div class="modal_post_bg js-modal-close"></div>
-        <div class="modal_post_content">
+    <div id="post-modal" class="js-modal">
+        <div class="modal-bg js-modal-close"></div>
+        <div class="modal-content">
                 <p class="text-center">投稿内容を編集します</p>
                 <form method="POST" action="{{ route('post.edit') }}">
                     {{ csrf_field() }}
@@ -123,6 +123,27 @@
                     <div class="form-group">
                         <label for="post-text" class="col-form-label">投稿内容:</label>
                         <textarea class="form-control input-post-text" name="post_text" maxlength="200" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mx-auto d-block">更新</button>
+                    <a class="js-modal-close float-right" href="">✕</a>
+                </form>
+        </div><!--modal__inner-->
+    </div><!--modal-->
+
+    <!-- Modal -->
+    <div id="comment-modal" class="js-modal">
+        <div class="modal-bg js-modal-close"></div>
+        <div class="modal-content">
+                <p class="text-center">コメントを編集します</p>
+                <form method="POST" action="{{ route('comment.edit') }}">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                    <input type="text" hidden class="form-control input-post-id" name ="post_id">
+                    <input type="text" hidden class="form-control input-comment-id" name ="comment_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="comment-text" class="col-form-label">コメント:</label>
+                        <textarea class="form-control input-comment-text" name="comment_text" maxlength="200" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary mx-auto d-block">更新</button>
                     <a class="js-modal-close float-right" href="">✕</a>

@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Auth::routes();
 
 //トップ画面(投稿画面)
@@ -24,6 +13,12 @@ Route::get('note/show','NoteController@show')->name('note.show');
 Route::post('note/store','NoteController@store')->name('note.store');
 Route::post('note/edit','NoteController@edit')->name('note.edit');
 Route::get('note/destroy/{id}','NoteController@destroy')->name('note.destroy');
+
+//コメント
+Route::get('comment/show/{post_id}','CommentController@show')->name('comment.show');
+Route::post('comment/store','CommentController@store')->name('comment.store');
+Route::post('comment/edit','CommentController@edit')->name('comment.edit');
+Route::get('comment/destroy/{post_id}/{id}','CommentController@destroy')->name('comment.destroy');
 
 //プロフィール（自分用）
 Route::get('profile/show','UserController@show')->name('profile.show');

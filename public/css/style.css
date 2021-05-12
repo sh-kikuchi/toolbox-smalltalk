@@ -5,20 +5,20 @@ main{
     margin: 0 auto;
     padding: 40px;
 }
-.post-modal{
+.js-modal{
     display: none;
     height: 100vh;
     position: fixed;
     top: 0;
     width: 100%;
 }
-.modal_post_bg{
+.modal-bg{
     background: rgba(0,0,0,0.8);
     height: 100vh;
     position: absolute;
     width: 100%;
 }
-.modal_post_content{
+.modal-content{
     background: #fff;
     left: 50%;
     padding: 40px;

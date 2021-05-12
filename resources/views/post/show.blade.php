@@ -15,13 +15,16 @@
     <div class="media-body px-1">
         <h5 class="mt-0">{{ $post -> user -> name }}</h5>
         {{ $post -> post }}
-        @if(Auth::user()->id === $post->user_id)
+
         <div class="float-right">
-            <!-- Button trigger modal -->
-            <button type="submit" class="btn btn-primary js-modal-open" href="" data-post_id="{{$post->id}}" data-post_text="{{ $post-> post }}"><i class="fas fa-pen"></i></button>
-            <a class="btn btn-danger"  onclick="return confirm('このカードを削除して良いですか?')" rel="nofollow" data-method="delete" href="/post/destroy/{{ $post->id }}"><i class="far fa-trash-alt"></i></a>
+             <a  class="btn btn-success"href="{{ route('comment.show', $post->id ) }}"><i class="fas fa-comment"></i></a>
+
+            @if(Auth::user()->id === $post->user_id)
+                <!-- Button trigger modal -->
+                <button type="submit" class="btn btn-primary js-modal-open" href="" data-target="post-modal" data-post_id="{{$post->id}}" data-post_text="{{ $post-> post }}"><i class="fas fa-pen"></i></button>
+                <a class="btn btn-danger"  onclick="return confirm('このカードを削除して良いですか?')" rel="nofollow" data-method="delete" href="/post/destroy/{{ $post->id }}"><i class="far fa-trash-alt"></i></a>
+            @endif
         </div>
-        @endif
     </div>
 </div>
 @endforeach

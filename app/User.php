@@ -46,6 +46,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Note');
     }
 
+    public function comments() {
+        return $this->hasMany('App\Comment');
+    }
+
 /*---------------------------------------------------------------------------------------
  フォロー機能の実装
 ---------------------------------------------------------------------------------------- */
