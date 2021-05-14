@@ -2,84 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Note;
+use Illuminate\Support\Facades\Auth;
+use App\note;
 use Illuminate\Http\Request;
 
-class NoteController extends Controller
+class noteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function __construct(){
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $note = new Note;
+        $note -> user_id    = Auth::User()->id;
+        $note -> note  = $request -> note_text;
+        $note -> save();
+        return redirect('note/show');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Note  $note
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Note $note)
+    public function show()
     {
-        //
+        $notes = Note::where('user_id',Auth::User()->id)
+         ->orderBy('updated_at', 'desc')
+         ->paginate(10);
+        return view('note.show',['notes'=>$notes]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Note  $note
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Note $note)
+    public function edit(Request $request)
     {
-        //
+        $note =Note::find($request -> note_id);
+        $note -> note  =  $request -> note_text;
+        $note -> save();
+        return redirect('note/show');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Note  $note
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Note $note)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Note  $note
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Note $note)
-    {
-        //
+        $note = Note::find($id);
+        $note->delete();
+        return redirect('note/show');
     }
 }

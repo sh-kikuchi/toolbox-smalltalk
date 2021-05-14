@@ -21,7 +21,7 @@
 		<div>
 		    <button type="button" class="btn btn-outline-info w-100 my-4 center-block"><a href="{{ route('profile.show') }}">プロフィール</a></button>
 		</div>
-		<!-- <div>
-		    <button type="button" class="btn btn-outline-info w-100 center-block"><a>マイルーム</a></button>
-		</div> -->
+		<div>
+		    <button type="button" class="btn btn-outline-info w-100 center-block"><a href="{{ route('note.show') }}">ひとりごと</a></button>
+		</div>
 </div>
