@@ -150,5 +150,26 @@
                 </form>
         </div><!--modal__inner-->
     </div><!--modal-->
+
+    <div id="note-modal" class="js-modal">
+        <div class="modal-bg js-modal-close"></div>
+        <div class="modal-content">
+                <p class="text-center">ひとりごとを訂正してしまいます。</p>
+                <form method="POST" action="{{ route('note.edit') }}">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                    <input type="text" hidden class="form-control input-note-id" name ="note_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="note-text" class="col-form-label">ひとりごと:</label>
+                        <textarea class="form-control input-note-text" name="note_text" maxlength="200" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mx-auto d-block">更新</button>
+                    <a class="js-modal-close float-right" href="">✕</a>
+                </form>
+        </div><!--modal__inner-->
+    </div><!--modal-->
+
+
 </body>
 </html>

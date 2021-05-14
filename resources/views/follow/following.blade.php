@@ -2,7 +2,7 @@
 @section('content')
 
 <h2>フォローリスト</h2>
-
+<h5 class="pl-4">アイコンをクリックすると、その方のプロフィールを見ることが出来ます。</h5>
 <div class="d-flex flex-nowrap flex-row bd-white mb-3 overflow-auto">
 @foreach($following_images -> unique() as $following_image)
     <div class="card border col-3 h-100">
