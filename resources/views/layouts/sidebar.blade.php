@@ -1,5 +1,5 @@
 
-<div id="side-bar" class="py-4">
+<div id="side-bar" class="py-4 d-none d-md-block">
 		<ul class="list-group list-group-flush">
 				<li class="list-group-item">
 				    <p>{{ Auth::user()->name }}　さん</p>

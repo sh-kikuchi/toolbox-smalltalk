@@ -4,8 +4,8 @@
 <form method="POST" action="{{ route('post.store') }}">
 {{ csrf_field() }}
 <div class="form-group row">
-    <input class="form-control col-10 ml-3" type="text" name = "post_text" placeholder="200字以内で投稿して下さい。" maxlength="200" required>
-    <button type="submit" class="btn btn-secondary col-1 ml-2"><i class="far fa-paper-plane"></i></button>
+    <input class="form-control col-8 col-sm-10 ml-3 " type="text" name = "post_text" placeholder="200字以内で投稿して下さい。" maxlength="200" required>
+    <button type="submit" class="btn btn-secondary col-2 col-sm-1 ml-2"><i class="far fa-paper-plane"></i></button>
 </div>
 </form>
 

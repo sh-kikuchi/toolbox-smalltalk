@@ -3,6 +3,7 @@
 
 <h2>フォロワーリスト</h2>
 <h5 class="pl-4">アイコンをクリックすると、その方のプロフィールを見ることが出来ます。</h5>
+ <p class="text-right">フォロワー数：{{ $cnt_follower }}</p>
 <div class="d-flex flex-nowrap flex-row bd-white mb-3 overflow-auto">
 @foreach($follower_images -> unique() as $follower_image)
     <div class="card border col-3 h-100 ">
