@@ -4,8 +4,8 @@
 <form method="POST" action="{{ route('user.search') }}">
       {{ csrf_field() }}
       <div class="form-group row">
-      <input class="form-control col-10 ml-3" type="text" name = "keyword" placeholder="ユーザー名で検索して下さい。" required>
-      <button type="submit" class="btn btn-secondary col-1 ml-2"><i class="fas fa-search"></i></button>
+      <input class="form-control form-control col-8 col-sm-10 ml-3" type="text" name = "keyword" placeholder="ユーザー名で検索して下さい。" required>
+      <button type="submit" class="btn btn-secondary col-2 col-sm-1 ml-2"><i class="fas fa-search"></i></button>
       </div>
 </form>
 
