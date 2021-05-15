@@ -13,8 +13,8 @@
 		{{ csrf_field() }}
 		<div class="form-group row">
 		    <input hidden name="post_id" value= "{{ $post_id }}" >
-				<input class="form-control col-10 ml-3" type="text" name = "comment_text" placeholder="コメント" maxlength="200" required>
-				<button type="submit" class="btn btn-secondary col-1 ml-2"><i class="far fa-paper-plane"></i></button>
+				<input class="form-control col-8 col-sm-10 ml-3" type="text" name = "comment_text" placeholder="コメント" maxlength="200" required>
+				<button type="submit" class="btn btn-secondary col-2 col-sm-1 ml-2"><i class="far fa-paper-plane"></i></button>
 		</div>
 		</form>
 		@foreach($post -> comments as $comments)
