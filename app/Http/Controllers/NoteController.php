@@ -37,9 +37,10 @@ class noteController extends Controller
         return redirect('note/show');
     }
 
-    public function destroy($id)
+    public function destroy(Note $note)
     {
-        $note = Note::find($id);
+        $this->authorize('destroy', $note);
+        $note = Note::find($note->id);
         $note->delete();
         return redirect('note/show');
     }
