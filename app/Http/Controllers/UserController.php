@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Post;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -36,19 +37,7 @@ class UserController extends Controller
         return view('profile.show',['user'=>$user]);
     }
 
-    public function edit(Request $request){
-        $validator = Validator::make($request->all(),
-        ['name' => 'required|string|max:25',
-         'email'=>'string|email|max:255',
-         'new_pass'=>'min:4|max:12|nullable',
-         'bio'=>'max:200',
-        ]);
-
-          //バリデーションの結果がエラーの場合
-        if ($validator->fails())
-        {
-          return redirect()->back()->withErrors($validator->errors())->withInput();
-        }
+    public function edit(UserRequest $request){
 
         $user = User::find(Auth::user()->id);
         $user -> name = $request -> name;
@@ -74,30 +63,30 @@ class UserController extends Controller
         return redirect()->route('profile.show');
     }
 
-    public function other($id){
-        $user  = User::where('id',$id) ->first();
-        $posts = Post::where('user_id',$id)->get();
+    public function other($user){
+        $user  = User::where('id',$user) ->first();
+        $posts = Post::where('user_id',$user)->get();
         return view('profile.other',['user'=>$user],['posts'=>$posts]);
     }
 
     #フォロー
-    public function follow($id){
+    public function follow($user){
         $follower = auth() -> user();                  //ログインユーザー情報を取得
-        $is_following = $follower -> isFollowing($id); //フォローしているか。modelの「isFollowing」を参照
+        $is_following = $follower -> isFollowing($user); //フォローしているか。modelの「isFollowing」を参照
         if(!$is_following){
             //フォローしていなければフォローする。
-            $follower -> follow($id);                  //modelの「follow」を参照
+            $follower -> follow($user);                  //modelの「follow」を参照
             return back();
         }
     }
 
     #フォローをはずす
-    public function unfollow($id){
+    public function unfollow($user){
         $follower = auth() -> user();                  //ログインユーザー情報を取得
-        $is_following = $follower -> isFollowing($id); //フォローしているか。modelの「isFollowing」を参照
+        $is_following = $follower -> isFollowing($user); //フォローしているか。modelの「isFollowing」を参照
         if($is_following){
             //フォローしていればフォローを解除する。
-            $follower -> unfollow($id);                //modelの「unfollow」を参照
+            $follower -> unfollow($user);                //modelの「unfollow」を参照
             return back();
         }
     }
