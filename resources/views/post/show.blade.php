@@ -11,7 +11,7 @@
 
 @foreach($posts as $post)
 <div class="media shadow-sm p-3 mb-1 bg-white rounded">
-    <img src="{{ asset('images/portrait.png')}}" class="rounded-circle">
+    <img src="{{ asset('storage/img/' . $post -> user -> image)}}" class="rounded-circle">
     <div class="media-body px-1 text-break">
         <h5 class="mt-0">{{ $post -> user -> name }}</h5>
         {{ $post -> post }}
