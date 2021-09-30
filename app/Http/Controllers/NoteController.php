@@ -21,7 +21,7 @@ class noteController extends Controller
         return redirect('note/show');
     }
 
-    public function show()
+    public function show(Note $note)
     {
         $notes = Note::where('user_id',Auth::User()->id)
          ->orderBy('updated_at', 'desc')
