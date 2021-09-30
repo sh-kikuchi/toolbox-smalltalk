@@ -65,7 +65,7 @@ class UserController extends Controller
 
     public function other($user){
         $user  = User::where('id',$user) ->first();
-        $posts = Post::where('user_id',$user)->get();
+        $posts = Post::where('user_id',$user->id)->get();
         return view('profile.other',['user'=>$user],['posts'=>$posts]);
     }
 
