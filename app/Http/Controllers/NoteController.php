@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\note;
+use App\Note;
 use Illuminate\Http\Request;
 
 class noteController extends Controller
