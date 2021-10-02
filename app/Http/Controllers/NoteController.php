@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Note;
 use Illuminate\Http\Request;
 
-class noteController extends Controller
+class NoteController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
