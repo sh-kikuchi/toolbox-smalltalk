@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Post;
+namespace Database\Seeders;
 
-class PostSeeder extends Seeder
+use Illuminate\Database\Seeder;
+
+class ChatSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +13,6 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        factory(Post::class, 10)->create();
+        //
     }
 }

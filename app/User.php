@@ -39,7 +39,6 @@ class User extends Authenticatable
 
     public function posts() {
         return $this->hasMany('App\Post');
-
     }
 
     public function notes() {
@@ -50,32 +49,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Comment');
     }
 
-/*---------------------------------------------------------------------------------------
- フォロー機能の実装
----------------------------------------------------------------------------------------- */
-    #自己結合（リレーション）「多」対「多」
-    public function followings() {
-        //フォローする側のUserから見て、フォローされる側のUserを集める
-        return $this->belongsToMany(self::class, 'follows', 'following_id', 'follower_id');
+    public function channels() {
+        return $this->hasMany('App\Channel');
     }
 
-    public function followers() {
-        //フォローされる側のUserから見て、フォローしてくる側のUserを集める
-        return $this->belongsToMany(self::class, 'follows', 'follower_id', 'following_id');
-    }
-
-    #フォロー/アンフォロー
-    public function follow(Int $user_id){
-        return $this -> followings() -> attach($user_id);
-    }
-
-    public function unfollow(Int $user_id){
-        return $this -> followings() -> detach($user_id);
-    }
-
-    ## フォローしているか
-    public function isFollowing(Int $user_id){
-        return $this -> followings() -> where('follower_id', $user_id) -> first(['users.id']);
+    public function chats() {
+        return $this->hasMany('App\Chat');
     }
 
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommentsTable extends Migration
+class CreateChatsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned()->nullable();
+        Schema::create('chats', function (Blueprint $table) {
+            $table->id();
+            $table->BigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->bigInteger('chat_id')->unsigned()->nullable();
-            $table->foreign('chat_id')->references('id')->on('chats')->onDelete('cascade');
-            $table->string('comment');
+            $table->uuid('channel_id')->nullable(false);
+            $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
+            $table->string('chat');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('chats');
     }
 }

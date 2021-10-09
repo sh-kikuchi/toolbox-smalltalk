@@ -5,31 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
-use App\Post;
+use App\Channel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index($channel)
     {
-        $users = User::where('id','<>', Auth::User()->id)->orWhereNull('id')
-        ->paginate(10);
-        return view('user.index',['users'=>$users]);
+        $users = User::with(['channels' => function ($query) {
+            $query->where('id','=', '$channel');
+        }])->paginate(10);
+
+        return view('user.index',['users'=>$users],['channel' => $channel]);
     }
 
     public function search(Request $request){
+        $channel = $request -> channel; /*ワード受取 */
         $keyword = request()->input('keyword'); /*ワード受取 */
-        $login_user = Auth::User()->id;
 
         #キーワードがあった場合
         if(!empty($keyword)){
-            $users = User::where('id','<>', $login_user)
-             ->where('name','like','%'.$keyword.'%')
-             ->orWhereNull('id')
-             ->paginate(10);
+            $users = User::with(['channels' => function ($query) {
+                $query->where('id','=', '$channel');
+            }])
+            ->where('name','like','%'.$keyword.'%')
+            ->orWhereNull('id')
+            ->paginate(10);
         }
-        return view('user.index',['users' => $users],['keyword' => $keyword]);
+        return view('user.index',['users' => $users],['channel' => $channel],['keyword' => $keyword]);
     }
 
     public function show(){
@@ -69,25 +73,4 @@ class UserController extends Controller
         return view('profile.other',['user'=>$user],['posts'=>$posts]);
     }
 
-    #フォロー
-    public function follow($user){
-        $follower = auth() -> user();                  //ログインユーザー情報を取得
-        $is_following = $follower -> isFollowing($user); //フォローしているか。modelの「isFollowing」を参照
-        if(!$is_following){
-            //フォローしていなければフォローする。
-            $follower -> follow($user);                  //modelの「follow」を参照
-            return back();
-        }
-    }
-
-    #フォローをはずす
-    public function unfollow($user){
-        $follower = auth() -> user();                  //ログインユーザー情報を取得
-        $is_following = $follower -> isFollowing($user); //フォローしているか。modelの「isFollowing」を参照
-        if($is_following){
-            //フォローしていればフォローを解除する。
-            $follower -> unfollow($user);                //modelの「unfollow」を参照
-            return back();
-        }
-    }
 }

@@ -11,10 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UserSeeder::class);
-        $this->call(FollowSeeder::class);
-        $this->call(PostSeeder::class);
-        $this->call(NoteSeeder::class);
-        $this->call(CommentSeeder::class);
+        \App\User::factory(10)->create();
+        \App\Follow::factory(10)->create();
+        \App\Post::factory(10)->create();
+        \App\Note::factory(10)->create();
+        \App\Comment::factory(10)->create();
+        \App\Channel::factory(10)->create();
     }
 }
