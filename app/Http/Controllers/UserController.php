@@ -5,33 +5,90 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
-use App\Post;
+use App\Channel;
+use App\Admin;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Channel $channel)
     {
-        $users = User::where('id','<>', Auth::User()->id)->orWhereNull('id')
-        ->paginate(10);
-        return view('user.index',['users'=>$users]);
+
+        $channel = Channel::find($channel->id);
+        $users = $channel->users()->paginate(10);
+
+        // $users = User::with(['channels' => function ($query) {
+        //     $query->where('channel_user.channel_id','=', '"$channel->id"');
+        // }])->paginate(10);
+
+        $admin = Admin::where('channel_id', $channel->id)->get();
+        $admin_array = [];
+        foreach($admin as $admin){
+            array_push($admin_array,$admin->user_id);
+        }
+
+        return view('user.index',compact('users','channel','admin','admin_array'));
     }
 
-    public function search(Request $request){
+    public function admin(Channel $channel, Request $request)
+    {
+        $user_id = $request-> user_id;
+        $button  = $request-> button;
+
+        if($button ==="kanri"){
+            //管理の場合
+            // $this->authorize('destroy', $channel);
+            $admin_cnt = Admin::where('channel_id',$channel->id)->count();
+
+            //管理者は最低でも1人は設定する
+            if($admin_cnt!==1){
+                $admin = Admin::where('channel_id',$channel->id)->where('user_id',$user_id)
+                ->delete();
+                return redirect()->route('user.index',compact('channel'));
+            }else{
+                session()->flash('message', '管理者を最低1人は設定して下さい');
+                return redirect()->route('user.index',compact('channel'));
+            }
+
+        }else{
+            //一般の場合
+            $admin = new Admin;
+            $admin -> user_id    = $user_id;
+            $admin -> channel_id = $channel->id;
+            $admin -> save();
+            return redirect()->route('user.index',compact('channel'));
+        }
+    }
+
+    /**
+     * ユーザー検索/ユーザーリスト
+     */
+    public function search(Channel $channel, Request $request){
         $keyword = request()->input('keyword'); /*ワード受取 */
-        $login_user = Auth::User()->id;
 
         #キーワードがあった場合
         if(!empty($keyword)){
-            $users = User::where('id','<>', $login_user)
-             ->where('name','like','%'.$keyword.'%')
-             ->orWhereNull('id')
-             ->paginate(10);
+            $users = User::with(['channels' => function ($query) {
+                $query->where('channels.id','=', '$channel->id');
+            }])
+            ->where('name','like','%'.$keyword.'%')
+            ->orWhereNull('id')
+            ->paginate(10);
+
+             $admin = Admin::where('channel_id', $channel->id)->get();
+             $admin_array = [];
+            foreach($admin as $admin){
+                array_push($admin_array,$admin->user_id);
+            }
         }
-        return view('user.index',['users' => $users],['keyword' => $keyword]);
+        // return redirect()->route('user.index',compact('channel','keyword'));
+        return view('user.index',compact('channel','keyword','users','admin_array'));
     }
 
+    /**
+     * プロフィール画面
+     */
     public function show(){
         $user  = User::where('id',Auth::user()->id) ->first();
         return view('profile.show',['user'=>$user]);
@@ -55,7 +112,9 @@ class UserController extends Controller
 
        #アイコン画像がある場合。
         if($request->hasFile('image')){
+
             $path = $request->file('image')->store('public/img'); //アップロードされた画像を保存する
+            $user->image = $image;
             $user->image = basename($path);
         }
 
@@ -63,31 +122,4 @@ class UserController extends Controller
         return redirect()->route('profile.show');
     }
 
-    public function other($user){
-        $user  = User::where('id',$user) ->first();
-        $posts = Post::where('user_id',$user->id)->get();
-        return view('profile.other',['user'=>$user],['posts'=>$posts]);
-    }
-
-    #フォロー
-    public function follow($user){
-        $follower = auth() -> user();                  //ログインユーザー情報を取得
-        $is_following = $follower -> isFollowing($user); //フォローしているか。modelの「isFollowing」を参照
-        if(!$is_following){
-            //フォローしていなければフォローする。
-            $follower -> follow($user);                  //modelの「follow」を参照
-            return back();
-        }
-    }
-
-    #フォローをはずす
-    public function unfollow($user){
-        $follower = auth() -> user();                  //ログインユーザー情報を取得
-        $is_following = $follower -> isFollowing($user); //フォローしているか。modelの「isFollowing」を参照
-        if($is_following){
-            //フォローしていればフォローを解除する。
-            $follower -> unfollow($user);                //modelの「unfollow」を参照
-            return back();
-        }
-    }
 }

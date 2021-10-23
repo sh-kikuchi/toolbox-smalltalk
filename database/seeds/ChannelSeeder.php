@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Follow;
+namespace Database\Seeders;
 
-class FollowSeeder extends Seeder
+use Illuminate\Database\Seeder;
+
+class ChannelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +13,7 @@ class FollowSeeder extends Seeder
      */
     public function run()
     {
-        factory(Follow::class, 10)->create();
+        //
+        factory(Channel::class, 10)->create();
     }
 }

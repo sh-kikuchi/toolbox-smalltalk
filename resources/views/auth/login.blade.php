@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-4">
        <div class="col-md-4 px-2">
           <img src="{{ asset('images/Conversation-bro.png')}}" width="300" height="300" class=" mx-auto d-block">
        </div>

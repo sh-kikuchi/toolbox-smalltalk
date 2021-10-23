@@ -61,21 +61,12 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <ul class="list-group list-group-flush list-unstyled">
                                         <li class="list-group-item">
-                                             <a class="dropdown-item" href="{{ route('post.show') }}">トップ</a>
+                                             <a class="dropdown-item" href="{{ route('channel.index') }}">トップ</a>
                                         </li>
                                         <li class="list-group-item">
-                                             <a class="dropdown-item" href="{{ route('user.index') }}">ユーザーリスト</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                             <a class="dropdown-item" href="{{ route('follow.following') }}">フォローリスト</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                             <a class="dropdown-item" href="{{ route('follow.follower') }}">フォロワーリスト</a>
-                                        </li>
-                                        <li class="list-group-item d-block d-sm-none">
                                              <a class="dropdown-item" href="{{ route('profile.show') }}">プロフィール</a>
                                         </li>
-                                        <li class="list-group-item d-block d-sm-none">
+                                        <li class="list-group-item d-block">
                                              <a class="dropdown-item" href="{{ route('note.show') }}">ひとりごと</a>
                                         </li>
                                         <li class="list-group-item">
@@ -116,25 +107,7 @@
             </main>
         @endguest
     </div>
-    <!-- Modal -->
-    <div id="post-modal" class="js-modal">
-        <div class="modal-bg js-modal-close"></div>
-        <div class="modal-content">
-                <p class="text-center">投稿内容を編集します</p>
-                <form method="POST" action="{{ route('post.edit') }}">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                    <input type="text" hidden class="form-control input-post-id" name ="post_id">
-                    </div>
-                    <div class="form-group">
-                        <label for="post-text" class="col-form-label">投稿内容:</label>
-                        <textarea class="form-control input-post-text" name="post_text" maxlength="200" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary mx-auto d-block">更新</button>
-                    <a class="js-modal-close float-right" href="">✕</a>
-                </form>
-        </div><!--modal__inner-->
-    </div><!--modal-->
+
 
     <!-- Modal -->
     <div id="comment-modal" class="js-modal">
@@ -144,7 +117,7 @@
                 <form method="POST" action="{{ route('comment.edit') }}">
                     {{ csrf_field() }}
                     <div class="form-group">
-                    <input type="text" hidden class="form-control input-post-id" name ="post_id">
+                    <input type="text" hidden class="form-control input-chat-id" name ="chat_id">
                     <input type="text" hidden class="form-control input-comment-id" name ="comment_id">
                     </div>
                     <div class="form-group">
@@ -169,6 +142,25 @@
                     <div class="form-group">
                         <label for="note-text" class="col-form-label">ひとりごと:</label>
                         <textarea class="form-control input-note-text" name="note_text" maxlength="200" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mx-auto d-block">更新</button>
+                    <a class="js-modal-close float-right" href="">✕</a>
+                </form>
+        </div><!--modal__inner-->
+    </div><!--modal-->
+
+    <div id="chat-modal" class="js-modal">
+        <div class="modal-bg js-modal-close"></div>
+        <div class="modal-content">
+                <p class="text-center">内容の更新をします</p>
+                <form method="POST" action="{{ route('chat.edit') }}">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                    <input type="text" hidden class="form-control input-channel-id" name ="channel_id">
+                    <input type="text" hidden class="form-control input-chat-id" name ="chat_id">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control input-chat-text" name="chat_text" maxlength="200" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary mx-auto d-block">更新</button>
                     <a class="js-modal-close float-right" href="">✕</a>
