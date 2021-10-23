@@ -117,7 +117,7 @@
                 <form method="POST" action="{{ route('comment.edit') }}">
                     {{ csrf_field() }}
                     <div class="form-group">
-                    <input type="text"  class="form-control input-chat-id" name ="chat_id">
+                    <input type="text" hidden class="form-control input-chat-id" name ="chat_id">
                     <input type="text" hidden class="form-control input-comment-id" name ="comment_id">
                     </div>
                     <div class="form-group">

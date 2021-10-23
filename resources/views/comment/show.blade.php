@@ -1,7 +1,14 @@
 @extends('layouts.app')
 @section('content')
 <div class="media shadow-sm p-3 mb-1 bg-white rounded">
-    <img src="{{ asset('images/portrait.png')}}" class="rounded-circle">
+    <!-- <img src="{{ asset('images/portrait.png')}}" class="rounded-circle"> -->
+		<div>
+				@if(Auth::user()->id === $chat->user->id)
+						<i class="fas fa-user-circle fa-3x mr-2" style="color: #333333"></i>
+				@else
+						<i class="fas fa-user-circle fa-3x mr-2 text-primary"></i></i>
+				@endif
+		</div>
     <div class="media-body px-1">
         <h5 class="mt-0">{{ $chat -> user -> name }}</h5>
         {{ $chat -> chat }}
@@ -20,7 +27,10 @@
 		@foreach($chat -> comments as $comments)
 		<div class="media shadow-sm p-3 mb-1 bg-white rounded">
 		  @if(Auth::user()->id === $comments->user_id)
-        <img src="{{ asset('storage/img/' . $comments -> user -> image)}}" class="rounded-circle order-1" width="50"  height="50">
+        <!-- <img src="{{ asset('storage/img/' . $comments -> user -> image)}}" class="rounded-circle order-1" width="50"  height="50"> -->
+				<div>
+						<i class="fas fa-user-circle fa-3x mr-2" style="color: #333333"></i>
+				</div>
 				<div class="media-body px-1 order-2">
 				    <h5 class="mt-0"></h5>
 						{{ $comments ->comment }}

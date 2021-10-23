@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Channel;
 use App\Chat;
+use App\Admin;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -33,13 +34,19 @@ class ChatController extends Controller
      * @param  \App\Chat  $chat
      * @return \Illuminate\Http\Response
      */
-    public function show($channel)
+    public function show(Channel $channel)
     {
-        $chats = Chat::where('channel_id',$channel)
+        $chats = Chat::where('channel_id',$channel->id)
          ->orderBy('updated_at', 'desc')
          ->paginate(10);
 
-        return view('chat.show',compact('chats','channel'));
+        $admin = Admin::where('channel_id', $channel->id)->get();
+        $admin_array = [];
+        foreach($admin as $admin){
+            array_push($admin_array,$admin->user_id);
+        }
+
+        return view('chat.show',compact('chats','channel','admin_array'));
     }
 
     /**
@@ -65,7 +72,7 @@ class ChatController extends Controller
      */
     public function destroy(Channel $channel, Chat $chat)
     {
-        // $this->authorize('destroy', $channel);
+        $this->authorize('destroy', $chat);
         $channel = $channel -> id;
         $chat = Chat::find($chat->id);
         $chat->delete();

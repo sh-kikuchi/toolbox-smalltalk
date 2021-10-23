@@ -15,10 +15,7 @@ class CreateChannelsTable extends Migration
     {
         Schema::create('channels', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->BigInteger('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name');
-            $table->bigInteger('admin')-> default(0); //管理者＝Usersテーブルのid
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }

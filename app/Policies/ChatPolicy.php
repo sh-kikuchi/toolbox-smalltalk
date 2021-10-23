@@ -69,6 +69,19 @@ class ChatPolicy
     }
 
     /**
+     * Determine whether the user can delete the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Chat  $chat
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function destroy(User $user, Chat $chat)
+    {
+        //
+        return $user->id === $chat->user_id;
+    }
+
+    /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user

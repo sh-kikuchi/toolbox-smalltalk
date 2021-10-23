@@ -37,10 +37,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts() {
-        return $this->hasMany('App\Post');
-    }
-
     public function notes() {
         return $this->hasMany('App\Note');
     }
@@ -50,11 +46,15 @@ class User extends Authenticatable
     }
 
     public function channels() {
-        return $this->hasMany('App\Channel');
+        return $this->belongsToMany('App\Channel');
     }
 
     public function chats() {
         return $this->hasMany('App\Chat');
+    }
+
+    public function admins() {
+        return $this->hasMany('App\Admin');
     }
 
 }

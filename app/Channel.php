@@ -11,12 +11,17 @@ class Channel extends Model
 
     public function users()
     {
-        return $this->hasMany('App\User');
+        return $this->belongsToMany('App\User');
     }
 
     public function chats()
     {
         return $this->hasMany('App\Chat');
+    }
+
+    public function admins()
+    {
+        return $this->hasMany('App\Admin');
     }
 
 }
