@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Comment extends Model
 {
     public function user()
@@ -11,8 +12,8 @@ class Comment extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function post()
+    public function chat()
     {
-        return $this->belongsTo('App\Post');
+        return $this->belongsTo('App\Chat');
     }
 }
