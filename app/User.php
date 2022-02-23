@@ -57,4 +57,15 @@ class User extends Authenticatable
         return $this->hasMany('App\Admin');
     }
 
+    /**
+     * パスワードリセット通知の送信
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new UserResetPassword($token));
+    }
+
 }
