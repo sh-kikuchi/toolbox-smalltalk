@@ -19,7 +19,7 @@
 		<form method="POST" action="{{ route('comment.store') }}" class=" ml-3">
 		{{ csrf_field() }}
 		<div class="form-group row">
-		    <input hidden name="chat_id" value= "1" >
+		    <input hidden name="chat_id" value= {{ $chat -> id }} >
 				<input class="form-control col-8 col-sm-10 ml-3" type="text" name = "comment_text" placeholder="コメント" maxlength="200" required>
 				<button type="submit" class="btn btn-secondary col-2 col-sm-1 ml-2"><i class="far fa-paper-plane"></i></button>
 		</div>

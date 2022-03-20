@@ -11,14 +11,14 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        $chat = $request -> chat_id;
+        $chat_id = $request -> chat_id;
         $comment = new Comment;
         $comment -> user_id = Auth::User()->id;
-        $comment -> chat_id = $chat;
+        $comment -> chat_id = $chat_id;
         $comment -> comment  = $request -> comment_text;
         $comment -> save();
 
-        return redirect()->route('comment.show',$chat);
+        return redirect()->route('comment.show',$chat_id);
     }
 
     public function show($chat)
