@@ -21,10 +21,10 @@ class CommentController extends Controller
         return redirect()->route('comment.show',$chat_id);
     }
 
-    public function show($chat)
+    public function show(Chat $chat)
     {
-        $chat = chat::where('id',$chat)->first();
-        $comments = Comment::where('chat_id',$chat)->get();
+        $chat = chat::where('id',$chat->id)->first();
+        $comments = Comment::where('chat_id',$chat->id)->get();
 
         return view('comment.show',compact('chat','comments'));
     }
