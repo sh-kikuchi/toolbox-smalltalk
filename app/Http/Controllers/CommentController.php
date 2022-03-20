@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Comment;
-use App\chat;
+use App\Chat;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
