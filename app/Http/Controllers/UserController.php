@@ -36,28 +36,31 @@ class UserController extends Controller
         $user_id = $request-> user_id;
         $button  = $request-> button;
 
-        if($button ==="kanri"){
-            //管理の場合
-            // $this->authorize('destroy', $channel);
-            $admin_cnt = Admin::where('channel_id',$channel->id)->count();
+        try{
+            if($button ==="kanri"){
+                //管理の場合
+                // $this->authorize('destroy', $channel);
+                $admin_cnt = Admin::where('channel_id',$channel->id)->count();
 
-            //管理者は最低でも1人は設定する
-            if($admin_cnt!==1){
-                $admin = Admin::where('channel_id',$channel->id)->where('user_id',$user_id)
-                ->delete();
-                return redirect()->route('user.index',compact('channel'));
+                //管理者は最低でも1人は設定する
+                if($admin_cnt!==1){
+                    $admin = Admin::where('channel_id',$channel->id)->where('user_id',$user_id)
+                    ->delete();
+                    return redirect()->route('user.index',compact('channel'));
+                }else{
+                    session()->flash('message', '管理者を最低1人は設定して下さい');
+                    return redirect()->route('user.index',compact('channel'));
+                }
             }else{
-                session()->flash('message', '管理者を最低1人は設定して下さい');
+                //一般の場合
+                $admin = new Admin;
+                $admin -> user_id    = $user_id;
+                $admin -> channel_id = $channel->id;
+                $admin -> save();
                 return redirect()->route('user.index',compact('channel'));
             }
-
-        }else{
-            //一般の場合
-            $admin = new Admin;
-            $admin -> user_id    = $user_id;
-            $admin -> channel_id = $channel->id;
-            $admin -> save();
-            return redirect()->route('user.index',compact('channel'));
+        }catch(\Exception $e){
+            $e->getMessage();
         }
     }
 
@@ -69,17 +72,20 @@ class UserController extends Controller
 
         #キーワードがあった場合
         if(!empty($keyword)){
-            $users = User::with(['channels' => function ($query) {
+            try{
+                $users = User::with(['channels' => function ($query) {
                 $query->where('channels.id','=', '$channel->id');
-            }])
-            ->where('name','like','%'.$keyword.'%')
-            ->orWhereNull('id')
-            ->paginate(10);
-
-             $admin = Admin::where('channel_id', $channel->id)->get();
-             $admin_array = [];
-            foreach($admin as $admin){
-                array_push($admin_array,$admin->user_id);
+                }])
+                ->where('name','like','%'.$keyword.'%')
+                 ->orWhereNull('id')
+                 ->paginate(10);
+                $admin = Admin::where('channel_id', $channel->id)->get();
+                $admin_array = [];
+                foreach($admin as $admin){
+                    array_push($admin_array,$admin->user_id);
+                }
+            }catch(\Exception $e){
+                $e->getMessage();
             }
         }
         // return redirect()->route('user.index',compact('channel','keyword'));
@@ -90,35 +96,44 @@ class UserController extends Controller
      * プロフィール画面
      */
     public function show(){
-        $user  = User::where('id',Auth::user()->id) ->first();
+        try{
+            $user  = User::where('id',Auth::user()->id) ->first();
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
         return view('profile.show',['user'=>$user]);
     }
 
     public function edit(UserRequest $request){
 
-        $user = User::find(Auth::user()->id);
-        $user -> name = $request -> name;
-        $user -> bio = $request -> bio;
+        try{
+            $user = User::find(Auth::user()->id);
+            $user -> name = $request -> name;
+            $user -> bio = $request -> bio;
 
-       #メールアドレスの入力がある場合
-        if($user->email !== $request->email){
-            $user->email  = $request->email;
+            #メールアドレスの入力がある場合
+            if($user->email !== $request->email){
+                $user->email  = $request->email;
+            }
+
+            #新パスワードに入力がある場合。
+            if (!empty($request -> new_pass)){
+                $user -> password =bcrypt($request -> new_pass);
+            }
+
+            #アイコン画像がある場合。
+            // if($request->hasFile('image')){
+            //     //アップロードされた画像を保存する
+            //     $path = $request->file('image')->store('public/img');
+            //     $user->image = $image;
+            //     $user->image = basename($path);
+            // }
+
+            $user->save();
+        }catch(\Exception $e){
+            $e->getMessage();
         }
 
-       #新パスワードに入力がある場合。
-        if (!empty($request -> new_pass)){
-            $user -> password =bcrypt($request -> new_pass);
-        }
-
-       #アイコン画像がある場合。
-        if($request->hasFile('image')){
-
-            $path = $request->file('image')->store('public/img'); //アップロードされた画像を保存する
-            $user->image = $image;
-            $user->image = basename($path);
-        }
-
-        $user->save();
         return redirect()->route('profile.show');
     }
 

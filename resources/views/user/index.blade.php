@@ -60,6 +60,6 @@
 </table>
 
 <div class="d-flex justify-content-center py-4">
-{{ $users->links() }}
+{{ $users->links('pagination::bootstrap-4') }}
 </div>
 @endsection

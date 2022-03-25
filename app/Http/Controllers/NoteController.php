@@ -14,34 +14,54 @@ class NoteController extends Controller
 
     public function store(Request $request)
     {
-        $note = new Note;
-        $note -> user_id    = Auth::User()->id;
-        $note -> note  = $request -> note_text;
-        $note -> save();
+        try{
+            $note = new Note;
+            $note -> user_id    = Auth::User()->id;
+            $note -> note  = $request -> note_text;
+            $note -> save();
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
         return redirect('note/show');
     }
 
     public function show(Note $note)
     {
-        $notes = Note::where('user_id',Auth::User()->id)
-         ->orderBy('updated_at', 'desc')
-         ->paginate(10);
+        try{
+            $notes = Note::where('user_id',Auth::User()->id)
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10);
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
         return view('note.show',['notes'=>$notes]);
     }
 
     public function edit(Request $request)
     {
-        $note =Note::find($request -> note_id);
-        $note -> note  =  $request -> note_text;
-        $note -> save();
+        try{
+            $note =Note::find($request -> note_id);
+            $note -> note  =  $request -> note_text;
+            $note -> save();
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
         return redirect('note/show');
     }
 
     public function destroy(Note $note)
     {
-        $this->authorize('destroy', $note);
-        $note = Note::find($note->id);
-        $note->delete();
+        try{
+            $this->authorize('destroy', $note);
+            $note = Note::find($note->id);
+            $note->delete();
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
         return redirect('note/show');
     }
 }
