@@ -19,12 +19,17 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        $channel = $request -> channel_id;
-        $chats = new Chat;
-        $chats -> user_id  = Auth::User()->id;
-        $chats -> channel_id  = $channel;
-        $chats -> chat  = $request -> chat_text;
-        $chats -> save();
+        try{
+            $channel = $request -> channel_id;
+            $chats = new Chat;
+            $chats -> user_id  = Auth::User()->id;
+            $chats -> channel_id  = $channel;
+            $chats -> chat  = $request -> chat_text;
+            $chats -> save();
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
         return redirect()->route('chat.show',$channel);
     }
 
@@ -36,14 +41,18 @@ class ChatController extends Controller
      */
     public function show(Channel $channel)
     {
-        $chats = Chat::where('channel_id',$channel->id)
-         ->orderBy('updated_at', 'desc')
-         ->paginate(10);
+        try{
+            $chats = Chat::where('channel_id',$channel->id)
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10);
 
-        $admin = Admin::where('channel_id', $channel->id)->get();
-        $admin_array = [];
-        foreach($admin as $admin){
-            array_push($admin_array,$admin->user_id);
+            $admin = Admin::where('channel_id', $channel->id)->get();
+            $admin_array = [];
+            foreach($admin as $admin){
+                array_push($admin_array,$admin->user_id);
+            }
+        }catch(\Exception $e){
+            $e->getMessage();
         }
 
         return view('chat.show',compact('chats','channel','admin_array'));
@@ -57,10 +66,15 @@ class ChatController extends Controller
      */
     public function edit(Request $request)
     {
-        $channel = $request -> channel_id;
-        $chat =Chat::find($request -> chat_id);
-        $chat -> chat  =  $request -> chat_text;
-        $chat -> save();
+        try{
+            $channel = $request -> channel_id;
+            $chat =Chat::find($request -> chat_id);
+            $chat -> chat  =  $request -> chat_text;
+            $chat -> save();
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
         return redirect()->route('chat.show',$channel);
     }
 
@@ -72,10 +86,15 @@ class ChatController extends Controller
      */
     public function destroy(Channel $channel, Chat $chat)
     {
-        $this->authorize('destroy', $chat);
-        $channel = $channel -> id;
-        $chat = Chat::find($chat->id);
-        $chat->delete();
+        try{
+            $this->authorize('destroy', $chat);
+            $channel = $channel -> id;
+            $chat = Chat::find($chat->id);
+            $chat->delete();
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
         return redirect()->route('chat.show',$channel);
     }
 }

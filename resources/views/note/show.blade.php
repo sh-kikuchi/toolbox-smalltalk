@@ -26,7 +26,7 @@
 @endforeach
 
 <div class="d-flex justify-content-center py-4">
-{{ $notes->links() }}
+{{ $notes->links('pagination::bootstrap-4') }}
 </div>
 
 @endsection
