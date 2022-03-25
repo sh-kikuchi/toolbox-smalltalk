@@ -84,12 +84,13 @@ class UserController extends Controller
                 foreach($admin as $admin){
                     array_push($admin_array,$admin->user_id);
                 }
+                 return view('user.index',compact('channel','keyword','users','admin_array'));
             }catch(\Exception $e){
                 $e->getMessage();
             }
         }
         // return redirect()->route('user.index',compact('channel','keyword'));
-        return view('user.index',compact('channel','keyword','users','admin_array'));
+
     }
 
     /**
