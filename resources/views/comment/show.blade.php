@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<a href="#" class="mb-3" onclick="window.history.back(); return false;">前画面に戻る</a>
 <div class="media shadow-sm p-3 mb-1 bg-white rounded">
     <!-- <img src="{{ asset('images/portrait.png')}}" class="rounded-circle"> -->
 		<div>
@@ -15,7 +16,7 @@
     </div>
 </div>
 <div>
-		<h4 class="text-center mt-4">コメント一覧</h4>
+		<h4 class="text-center mt-4">コメント一覧(降順)</h4>
 		<form method="POST" action="{{ route('comment.store') }}" class=" ml-3">
 		{{ csrf_field() }}
 		<div class="form-group row">

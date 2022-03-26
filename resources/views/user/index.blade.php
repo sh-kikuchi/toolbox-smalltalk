@@ -4,15 +4,16 @@
 @if(session('message'))
 <div class="alert alert-success">{{session('message')}}</div>
 @endif
+<a  class="mb-2" href="{{ route('chat.show',$channel->id) }}">前画面に戻る</a>
 <form method="POST" action="{{ route('user.search',$channel->id) }}" >
       {{ csrf_field() }}
       <div class="form-group row">
       <input class="form-control form-control col-9 col-sm-10 ml-3" type="text" name = "keyword" placeholder="ユーザー名で検索して下さい。" required>
-    <button type="submit" class="btn btn-secondary col-2 col-sm-1 ml-2"><i class="far fa-paper-plane"></i></button>
+    <button type="submit" class="btn btn-secondary col-2 col-sm-1 ml-2"><i class="fas fa-search"></i></button>
       </div>
 </form>
 
-@isset ($keyword)<p>検索結果:{{ $keyword }}  <a  class="btn btn-primary" href="{{ route('user.index',$channel->id) }}">戻る</a></p>@endisset
+@isset ($keyword)<p>検索結果:{{ $keyword }} ／ <a  class="btn btn-secondary" href="{{ route('user.index',$channel->id) }}">戻る</a></p>@endisset
 
 <table class="table-striped mx-auto w-100">
     <tr>

@@ -83,7 +83,7 @@ class ChannelController extends Controller
                 $channel -> users() -> attach(Auth::User()->id);
                 return redirect('/');
             }else{
-                session()->flash('message', '該当のチームがありませんでした。');
+                session()->flash('message', '該当のチャンネルがありませんでした。');
                 return redirect('/');
             }
         }catch (\Exception $e) {
@@ -119,23 +119,21 @@ class ChannelController extends Controller
      */
     public function delete(Channel $channel)
     {
-        try{
-            //チャンネル参加人数
-            $ch_user_cnt = $channel -> users()->count();
 
-            //管理者は最低でも1人は設定する
-            if($ch_user_cnt!==1){
-                $this->authorize('destroy', $channel);
-                $channel = Channel::find($channel->id);
-                $channel -> users() -> detach(Auth::User()->id);
-                return redirect('/');
-            }else{
-                session()->flash('message', 'チャンネルを削除して下さい');
-                return redirect('/');
-            }
-        }catch (\Exception $e) {
-            $e->getMessage();
+        //チャンネル参加人数
+        $ch_user_cnt = $channel -> users()->count();
+
+        //管理者は最低でも1人は設定する
+        if($ch_user_cnt!==1){
+            $this->authorize('destroy', $channel);
+            $channel = Channel::find($channel->id);
+            $channel -> users() -> detach(Auth::User()->id);
+            return redirect('/');
+        }else{
+            session()->flash('message', '参加者が1人のため、チャンネル内で削除して下さい');
+            return redirect('/');
         }
+
     }
 
 }
