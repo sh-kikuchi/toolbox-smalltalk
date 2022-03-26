@@ -18,10 +18,6 @@ class UserController extends Controller
         $channel = Channel::find($channel->id);
         $users = $channel->users()->paginate(10);
 
-        // $users = User::with(['channels' => function ($query) {
-        //     $query->where('channel_user.channel_id','=', '"$channel->id"');
-        // }])->paginate(10);
-
         $admin = Admin::where('channel_id', $channel->id)->get();
         $admin_array = [];
         foreach($admin as $admin){
@@ -36,7 +32,6 @@ class UserController extends Controller
         $user_id = $request-> user_id;
         $button  = $request-> button;
 
-        try{
             if($button ==="kanri"){
                 //管理の場合
                 // $this->authorize('destroy', $channel);
@@ -52,16 +47,18 @@ class UserController extends Controller
                     return redirect()->route('user.index',compact('channel'));
                 }
             }else{
-                //一般の場合
-                $admin = new Admin;
-                $admin -> user_id    = $user_id;
-                $admin -> channel_id = $channel->id;
-                $admin -> save();
+                try{
+                    //一般の場合
+                    $admin = new Admin;
+                    $admin -> user_id    = $user_id;
+                    $admin -> channel_id = $channel->id;
+                    $admin -> save();
+                }catch(\Exception $e){
+                    $e->getMessage();
+                }
+
                 return redirect()->route('user.index',compact('channel'));
             }
-        }catch(\Exception $e){
-            $e->getMessage();
-        }
     }
 
     /**
@@ -72,25 +69,21 @@ class UserController extends Controller
 
         #キーワードがあった場合
         if(!empty($keyword)){
-            try{
-                $users = User::with(['channels' => function ($query) {
-                $query->where('channels.id','=', '$channel->id');
-                }])
-                ->where('name','like','%'.$keyword.'%')
-                 ->orWhereNull('id')
-                 ->paginate(10);
-                $admin = Admin::where('channel_id', $channel->id)->get();
-                $admin_array = [];
-                foreach($admin as $admin){
-                    array_push($admin_array,$admin->user_id);
-                }
-                 return view('user.index',compact('channel','keyword','users','admin_array'));
-            }catch(\Exception $e){
-                $e->getMessage();
-            }
-        }
-        // return redirect()->route('user.index',compact('channel','keyword'));
+            $users = User::with(['channels' => function ($query) {
+            $query->where('channels.id','=', '$channel->id');
+            }])
+            ->where('name','like','%'.$keyword.'%')
+                ->orWhereNull('id')
+                ->paginate(10);
 
+            $admin = Admin::where('channel_id', $channel->id)->get();
+            $admin_array = [];
+            foreach($admin as $admin){
+                array_push($admin_array,$admin->user_id);
+            }
+
+            return view('user.index',compact('channel','keyword','users','admin_array'));
+        }
     }
 
     /**
