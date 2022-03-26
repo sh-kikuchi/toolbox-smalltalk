@@ -54,7 +54,7 @@
     <label for="exampleFormControlFile1">アイコン画像</label>
     <input type="file" class="form-control-file" id="exampleFormControlFile1" value="{{ $user -> image }}" name="image">
 </div> -->
-<button type="submit" class="btn btn-primary mx-auto d-block col-3">更新</button>
+<button type="submit" class="btn btn-primary mx-auto d-block col-3" onClick="alert('更新しました。');">更新</button>
 </form>
 
 @endsection

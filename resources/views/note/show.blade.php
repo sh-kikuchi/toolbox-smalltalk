@@ -19,7 +19,7 @@
         <div class="float-right">
             <!-- Button trigger modal -->
             <button type="submit" class="btn btn-primary js-modal-open" href="" data-target="note-modal" data-note_id="{{$note->id}}" data-note_text="{{ $note-> note }}"><i class="fas fa-pen"></i></button>
-            <a class="btn btn-danger"  onclick="return confirm('このカードを削除して良いですか?')" rel="nofollow" data-method="delete" href="/note/destroy/{{ $note->id }}"><i class="far fa-trash-alt"></i></a>
+            <a class="btn btn-danger"  onclick="return confirm('このひとりごとを削除して良いですか?')" rel="nofollow" data-method="delete" href="/note/destroy/{{ $note->id }}"><i class="far fa-trash-alt"></i></a>
         </div>
     </div>
 </div>
