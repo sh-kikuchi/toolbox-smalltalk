@@ -69,18 +69,15 @@ class UserController extends Controller
      */
     public function search(Channel $channel, Request $request){
         $keyword = request()->input('keyword'); /*ワード受取 */
-        $channel_id = $channel->id;
 
         #キーワードがあった場合
         if(!empty($keyword)){
-            $users = User::with(['channels' => function ($query) {
-                $query->where('channels.id','=', '$channel->id');
-            }])
+            //中間テーブルでchannelsとusersの組み合わせを探す
+            $users = User::whereHas('channels', function($query)use($channel){
+                $query->where('channel_user.channel_id',$channel->id);
+            })
             ->where('name','like','%'.$keyword.'%')
-                ->orWhereNull('id')
-                ->get();
-
-                 dd($users);
+            ->paginate(10);
 
             $admin = Admin::where('channel_id', $channel->id)->get();
             $admin_array = [];

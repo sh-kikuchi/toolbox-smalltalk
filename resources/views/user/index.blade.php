@@ -14,8 +14,6 @@
 
 @isset ($keyword)<p>検索結果:{{ $keyword }}  <a  class="btn btn-primary" href="{{ route('user.index',$channel->id) }}">戻る</a></p>@endisset
 
-
-
 <table class="table-striped mx-auto w-100">
     <tr>
         <th class="w-10 text-center">名前</th>
