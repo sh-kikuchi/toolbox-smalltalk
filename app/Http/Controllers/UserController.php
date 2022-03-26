@@ -73,7 +73,7 @@ class UserController extends Controller
             $query->where('channels.id','=', '$channel->id');
             }])
             ->where('name','like','%'.$keyword.'%')
-                ->orWhereNull('id')
+                // ->orWhereNull('id')
                 ->paginate(10);
 
             $admin = Admin::where('channel_id', $channel->id)->get();
