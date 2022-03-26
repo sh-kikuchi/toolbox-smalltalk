@@ -67,14 +67,13 @@ class UserController extends Controller
     public function search(Channel $channel, Request $request){
         $keyword = request()->input('keyword'); /*ワード受取 */
 
+
+        dd($channel);
         #キーワードがあった場合
         if(!empty($keyword)){
             $users = User::with(['channels' => function ($query) {
             $query->where('channels.id','=', '$channel->id');
-            }])
-            ->where('name','like','%'.$keyword.'%')
-                // ->orWhereNull('id')
-                ->paginate(10);
+            }])->where('name','like','%'.$keyword.'%')->paginate(10);
 
             $admin = Admin::where('channel_id', $channel->id)->get();
             $admin_array = [];
