@@ -9,6 +9,7 @@ use App\Channel;
 use App\Admin;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -114,7 +115,18 @@ class UserController extends Controller
 
             #新パスワードに入力がある場合。
             if (!empty($request -> new_pass)){
-                $user -> password =bcrypt($request -> new_pass);
+                $current_password = bcrypt($request -> current_pass);
+
+                // dd(Auth::user()->password);
+
+                if(Hash::check($request -> current_pass,Auth::user()->password)){
+                     $user -> password =bcrypt($request -> new_pass);
+                    session()->flash('message', 'パスワード変更しました');
+                }else{
+                    session()->flash('message', '現在のパスワードが間違っています');
+                    return redirect()->route('profile.show');
+                }
+
             }
 
             #アイコン画像がある場合。
@@ -124,7 +136,7 @@ class UserController extends Controller
             //     $user->image = $image;
             //     $user->image = basename($path);
             // }
-
+             session()->flash('message', '登録が完了しました');
             $user->save();
         }catch(\Exception $e){
             $e->getMessage();

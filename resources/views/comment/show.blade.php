@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<a href="#" class="mb-3" onclick="window.history.back(); return false;">前画面に戻る</a>
+<a class="ml-3" href="{{ url('/chat/show', $chat -> channel->id) }}">前画面に戻る</a>
 <div class="media shadow-sm p-3 mb-1 bg-white rounded">
     <!-- <img src="{{ asset('images/portrait.png')}}" class="rounded-circle"> -->
 		<div>
@@ -43,10 +43,19 @@
 						</div>
 				</div>
 			@else
-        <img src="{{ asset('storage/img/' . $comments -> user -> image)}}" class="rounded-circle order-2" width="50"  height="50">
+
+        <!-- <img src="{{ asset('storage/img/' . $comments -> user -> image)}}" class="rounded-circle order-2" width="50"  height="50"> -->
+				<div>
+						<i class="fas fa-user-circle fa-3x mr-2 text-primary"></i>
+				</div>
 				<div class="media-body px-1 order-1" order-1>
 						<h5 class="mt-0"></h5>
-						{{ $comments ->comment }}
+						<div>
+						    {{ $comments->user->name }}
+           </div>
+						<div>
+					      {{ $comments ->comment }}
+           </div>
 				</div>
 		   @endif
 		</div>

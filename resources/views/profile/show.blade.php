@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
+@if(session('message'))
+    <div class="alert alert-secondary">{{session('message')}}</div>
+@endif
 <form method ="POST" action="{{ route('profile.edit') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="media shadow-sm p-3 mb-1 bg-white rounded" >
@@ -39,7 +42,7 @@
 </div>
 <div class="form-group">
     <label for="exampleInputPassword1">現在のパスワード</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" value="{{ $user -> password }}" name="current_pass" readonly>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="current_pass" >
 </div>
 <div class="form-group">
     <label for="exampleInputPassword2">新パスワード</label>
@@ -54,7 +57,7 @@
     <label for="exampleFormControlFile1">アイコン画像</label>
     <input type="file" class="form-control-file" id="exampleFormControlFile1" value="{{ $user -> image }}" name="image">
 </div> -->
-<button type="submit" class="btn btn-primary mx-auto d-block col-3" onClick="alert('更新しました。');">更新</button>
+<button type="submit" class="btn btn-primary mx-auto d-block col-3">更新</button>
 </form>
 
 @endsection
