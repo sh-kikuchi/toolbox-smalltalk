@@ -27,9 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', function ($view){
-
             $user_id = Auth::id();
-            $cnt_channel = DB::table('channel_user')->where('user_id', Auth::id())
+            $cnt_channel = DB::table('channel_user')->where('user_id', Auth::id())->where('status', 1)
             ->distinct()->select('channel_id')->count();
         //...with this variable
             $view->with('cnt_channel',$cnt_channel);

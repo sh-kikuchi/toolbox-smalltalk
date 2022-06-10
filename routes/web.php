@@ -35,3 +35,5 @@ Route::post('profile/edit','UserController@edit') ->name('profile.edit');
 Route::get('user/index/{channel}','UserController@index')->name('user.index');
 Route::post('user/search/{channel}','UserController@search')->name('user.search');
 Route::post('user/admin/{channel}','UserController@admin')->name('user.admin');
+Route::post('user/join/{channel}','UserController@join')->name('user.join');
+Route::post('user/reject/{channel}','UserController@reject')->name('user.reject');

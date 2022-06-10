@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<div>
+<section>
 <p class="text-center">チャンネル参加リスト</p><hr>
 @foreach($channels as $channel)
 <div class=" row media shadow-sm p-3 mb-1 bg-white rounded">
@@ -60,5 +60,20 @@
 {{ $channels->links('pagination::bootstrap-4') }}
 </div>
 
+</section>
+<section>
+<p class="text-center">承認待ち</p><hr>
+@foreach($joins as $join)
+<div class=" row media shadow-sm p-3 mb-1 bg-white rounded">
+    <div class="media-body px-1 text-break d-flex justify-content-between">
+        <div class="mt-0" >{{ $join -> name }}
+        </div>
+    </div>
 </div>
+@endforeach
+<div class="d-flex justify-content-center py-4">
+{{ $joins->links('pagination::bootstrap-4') }}
+</div>
+
+</section>
 @endsection
