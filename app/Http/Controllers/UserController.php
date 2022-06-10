@@ -16,22 +16,29 @@ class UserController extends Controller
     public function index(Channel $channel)
     {
 
-        $channel = Channel::find($channel->id);
-        $users = $channel->users()->paginate(10);
+        /* 中間テーブルでステータスが「1」（承認済）のとき*/
+        $users = User::whereHas('channels', function($query)use($channel){
+             $query->where('channel_user.channel_id',$channel->id)->where('channel_user.status',1);
+        })->paginate(10);
 
-        // $users = User::with(['channels' => function ($query) {
-        //     $query->where('channel_user.channel_id','=', '"$channel->id"');
-        // }])->paginate(10);
+        /* 中間テーブルでステータスが「0」（承認待ち）のとき*/
+        $joins = User::whereHas('channels', function($query)use($channel){
+             $query->where('channel_user.channel_id',$channel->id)->where('channel_user.status',0);
+        })->paginate(3);
 
+        /* 権限ボタン */
         $admin = Admin::where('channel_id', $channel->id)->get();
         $admin_array = [];
         foreach($admin as $admin){
             array_push($admin_array,$admin->user_id);
         }
 
-        return view('user.index',compact('users','channel','admin','admin_array'));
+        return view('user.index',compact('users','channel','admin','admin_array','joins'));
     }
 
+    /**
+     * ボタン切替（管理者/一般）
+     */
     public function admin(Channel $channel, Request $request)
     {
         $user_id = $request-> user_id;
@@ -63,6 +70,45 @@ class UserController extends Controller
         }catch(\Exception $e){
             $e->getMessage();
         }
+    }
+
+    /**
+     * 承認待ち
+     */
+    public function join(Channel $channel, Request $request)
+    {
+        $user_id = $request-> user_id;
+        $channel_id = $channel-> id;
+
+        // dd(User::find($user_id)->channels($channel_id));
+
+        try{
+            $user = User::find($user_id);
+            // 中間テーブルのレコード更新
+            $user->channels()->updateExistingPivot($channel_id,['status' => 1]);
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
+        return redirect()->route('user.index',compact('channel'));
+    }
+
+    /**
+     * 承認拒否
+     */
+    public function reject(Channel $channel, Request $request)
+    {
+        $user_id = $request-> user_id;
+        $channel_id = $channel-> id;
+
+        try{
+            $user = User::find($user_id);
+            $user->channels()->detach($channel_id);
+        }catch(\Exception $e){
+            $e->getMessage();
+        }
+
+        return redirect()->route('user.index',compact('channel'));
     }
 
     /**
@@ -136,8 +182,9 @@ class UserController extends Controller
             //     $user->image = $image;
             //     $user->image = basename($path);
             // }
-             session()->flash('message', '登録が完了しました');
+            session()->flash('message', '登録が完了しました');
             $user->save();
+
         }catch(\Exception $e){
             $e->getMessage();
         }

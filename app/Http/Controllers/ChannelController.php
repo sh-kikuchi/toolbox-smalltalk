@@ -26,13 +26,17 @@ class ChannelController extends Controller
         try{
             //中間テーブルでchannelsとusersの組み合わせを探す
             $channels = Channel::whereHas('users', function($query){
-                $query->where('channel_user.user_id', '=', Auth::id());
+                $query->where('channel_user.user_id', '=', Auth::id())->where('channel_user.status',1);
+            })->orderBy('updated_at', 'desc')->paginate(5);
+
+            $joins = Channel::whereHas('users', function($query){
+                $query->where('channel_user.user_id', '=', Auth::id())->where('channel_user.status',0);
             })->orderBy('updated_at', 'desc')->paginate(5);
         }catch (\Exception $e) {
             $e->getMessage();
         }
 
-        return view('channel.index',['channels'=>$channels]);
+        return view('channel.index',compact('channels','joins'));
     }
 
     /**
@@ -58,7 +62,8 @@ class ChannelController extends Controller
             $admin->channel_id = $channel_id;
             $admin -> save();
 
-            $channel -> users() -> attach(Auth::User()->id);
+            $channel -> users() -> attach(['users'=>Auth::User()->id],['status' => 1]);
+
         }catch (\Exception $e) {
             $e->getMessage();
         }
@@ -81,6 +86,7 @@ class ChannelController extends Controller
 
             if($channel !== null){
                 $channel -> users() -> attach(Auth::User()->id);
+                session()->flash('message', '承認待ち：承認されたら参加リストに追加されます');
                 return redirect('/');
             }else{
                 session()->flash('message', '該当のチャンネルがありませんでした。');
